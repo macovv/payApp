@@ -1,1 +1,3 @@
-<h1>WORKS</h1>
+<app-navbar></app-navbar>
+<app-users *ngIf="loggedIn()"></app-users>
+<app-register *ngIf="!loggedIn()"></app-register>

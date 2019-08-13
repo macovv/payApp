@@ -57,19 +57,19 @@ namespace payApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto user) // here can be something wrong
         {
-            // if(ModelState.IsValid) //dunnno it should be here
-            // {
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, user.RememberMe, false);
-            if(result.Succeeded)
+            if(ModelState.IsValid) //dunnno it should be here
             {
-                var userToReturn = _ctx.Users.Include(x => x.UserWishes).Where(u => u.UserName == user.UserName).FirstOrDefault();
-                 if (userToReturn != null)
-                 {
-                    var tokenString = GenerateJSONWebToken(userToReturn);
-                    return Ok(new { token = tokenString, userToReturn });
-                 }
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, user.RememberMe, false);
+                if(result.Succeeded)
+                {
+                    var userToReturn = _ctx.Users.Include(x => x.UserWishes).Where(u => u.UserName == user.UserName).FirstOrDefault();
+                    if (userToReturn != null)
+                    {
+                        var tokenString = GenerateJSONWebToken(userToReturn);
+                        return Ok(new { token = tokenString, user = userToReturn });
+                    }
+                }
             }
-            // }
             return Unauthorized();
         }
 
@@ -86,9 +86,9 @@ namespace payApp.API.Controllers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             
             var claims = new[] {
-            new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
-            new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
+                new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
@@ -99,16 +99,5 @@ namespace payApp.API.Controllers
             
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        
-        // private User AuthenticateUser(User login)
-        // {
-        //     User user = null;
-            
-        //     if (login.UserName == "Jignesh")
-        //     {
-        //         user = new User { UserName = "Jignesh Trivedi", Email = "test.btest@gmail.com" };
-        //     }
-        //     return user;
-        // }
     }
 }

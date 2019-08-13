@@ -1,0 +1,22 @@
+
+        <form #loginForm="ngForm"  *ngIf="!loggedIn()" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
+            <input class="form-control mr-sm-2" type="text" name="UserName" placeholder="Username" required [(ngModel)]="model.UserName">
+            <input class="form-control mr-sm-2" type="password" name="Password" placeholder="Password" required [(ngModel)]="model.Password">
+            <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+        </form>
+                
+        <button *ngIf="loggedIn()" (click)="logout()">Logout</button>
+        
+        <form *ngIf="!loggedIn()" #registerForm="ngForm" (ngSubmit)="register()" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" name="UserName" placeholder="Username" required [(ngModel)]="model.UserName">
+            <input class="form-control mr-sm-2" type="email" name="Email" placeholder="Email" required [(ngModel)]="model.Email">
+            <input class="form-control mr-sm-2" type="password" name="Password" placeholder="Password" required [(ngModel)]="model.Password">
+            <button [disabled]="!registerForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Register</button>
+        </form>
+        
+        <div *ngIf="loggedIn()">
+            <p>test</p>
+            <p>{{ user.username }}</p>
+            <p>{{ user.income }}</p>
+            <p>{{ user.costs }}</p>
+        </div>
