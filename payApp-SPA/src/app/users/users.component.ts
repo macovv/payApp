@@ -9,9 +9,16 @@ import { User } from '../Models/user';
 })
 export class UsersComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.loadUser();
+  }
+
+  loadUser() {
+    this.user = this.authService.currentUser;
   }
 
 }

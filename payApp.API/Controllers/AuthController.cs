@@ -41,15 +41,13 @@ namespace payApp.API.Controllers
             var newUser = new User() 
             {
                 UserName = user.UserName.ToLower(),
-                Income = user.Income,
-                Costs = user.Costs,
                 Email = user.Email
             };
-            var result = await _userManager.CreateAsync(newUser, "P@ssw0rd!");
+            var result = await _userManager.CreateAsync(newUser, user.Password);
             if(result.Succeeded)
             {
                 await _signInManager.SignInAsync(newUser, false);
-                return Ok(user.UserName); // correct return!
+                return Ok(); // correct return!
             }
             return BadRequest();
         }
@@ -92,10 +90,10 @@ namespace payApp.API.Controllers
             };
             
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-            _config["Jwt:Issuer"],
-            claims,
-            expires: DateTime.Now.AddMinutes(120),
-            signingCredentials: credentials);
+                _config["Jwt:Issuer"],
+                claims,
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials);
             
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

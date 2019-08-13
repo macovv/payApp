@@ -9,6 +9,7 @@ import { UsersComponent } from './users/users.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuthService } from './services/auth.service';
 import { RegisterComponent } from './register/register.component';
+import { UserService } from './services/user.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -35,7 +36,10 @@ export function tokenGetter() {
    })
 
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

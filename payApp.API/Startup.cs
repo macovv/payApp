@@ -50,6 +50,10 @@ namespace payApp.API
 
             services.AddIdentity<User, IdentityRole>(cfg => {
                 cfg.User.RequireUniqueEmail = true;
+                cfg.Password.RequireUppercase = false;
+                cfg.Password.RequireDigit = false;
+                cfg.Password.RequireNonAlphanumeric = false;
+                cfg.Password.RequiredLength = 4;
             }).AddEntityFrameworkStores<AppDbContext>();
             services.AddCors();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // ?

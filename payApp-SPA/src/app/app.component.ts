@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   loggedIn() {
-    this.authService.loggedIn();
+    return this.authService.loggedIn();
   }
 
 }
