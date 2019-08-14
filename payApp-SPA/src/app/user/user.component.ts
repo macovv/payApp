@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { User } from '../Models/user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UserComponent implements OnInit {
 
   user: User;
 
@@ -20,5 +20,4 @@ export class UsersComponent implements OnInit {
   loadUser() {
     this.user = this.authService.currentUser;
   }
-
 }

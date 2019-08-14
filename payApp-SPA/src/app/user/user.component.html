@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 mt-2">
+        <h3>{{user.userName}}</h3>
+        <ul>
+            <li *ngFor="let wish of user.userWishes">
+                <a href="{{wish.UrlToShop}}">{{wish.Name}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-6">
+      One of three columns
+    </div>
+  </div>
+</div>

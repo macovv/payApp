@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace payApp.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    // [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -25,11 +25,31 @@ namespace payApp.API.Controllers
             _ctx = ctx;
         }
 
-       [HttpGet("{name}")]
-       public IActionResult getUser(string name) 
-       {
-           var user = _ctx.Users.Where(u => u.UserName == name).Include(i => i.UserWishes).FirstOrDefault();
-           return Ok(user);
-       }
+
+        [HttpGet("{name}")]
+        public IActionResult getUser(string name) 
+        {
+            var user = _ctx.Users.Where(u => u.UserName == name).Include(i => i.UserWishes).FirstOrDefault();
+            if(user != null)
+                return Ok(user);
+            else
+                return BadRequest();
+        }
+
+        [HttpPost("{name}/addWish")]
+        public async Task<IActionResult> addWish(WishForAddDto wish, string name)
+        {
+            var user = _ctx.Users.Include(w => w.UserWishes).Where(u => u.UserName == name).FirstOrDefault();
+            Wish wishToAdd = new Wish() {
+                UrlToShop = wish.UrlToShop,
+                Name = wish.Name,
+                Cost = wish.Cost,
+                User = user
+            };
+            user.UserWishes.Add(wishToAdd);
+            _ctx.Wishes.Add(wishToAdd);
+            await _ctx.SaveChangesAsync();
+            return Ok("Wish Added");
+        }
     }
 }
