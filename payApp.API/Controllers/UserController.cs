@@ -10,6 +10,8 @@ using payApp.API.Data;
 using payApp.API.Dtos;
 using payApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace payApp.API.Controllers
 {
@@ -36,10 +38,16 @@ namespace payApp.API.Controllers
                 return BadRequest();
         }
 
+        [Authorize]
         [HttpPost("{name}/addWish")]
         public async Task<IActionResult> addWish(WishForAddDto wish, string name)
         {
             var user = _ctx.Users.Include(w => w.UserWishes).Where(u => u.UserName == name).FirstOrDefault();
+            Console.WriteLine("-----------------------------" + User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (user.UserName != User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
             Wish wishToAdd = new Wish() {
                 UrlToShop = wish.UrlToShop,
                 Name = wish.Name,

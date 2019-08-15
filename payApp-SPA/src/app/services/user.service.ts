@@ -15,4 +15,8 @@ export class UserService {
   getUser(name: string): Observable<User> {
     return this.http.get<User>('http://localhost:5000/api/user/' + name);
   }
+
+  addWish(name: string, model: any) {
+    return this.http.post('http://localhost:5000/api/user/' + name + '/addWish', model);
+  }
 }

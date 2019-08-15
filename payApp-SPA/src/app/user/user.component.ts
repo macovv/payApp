@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { User } from '../Models/user';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -10,14 +11,25 @@ import { AuthService } from '../services/auth.service';
 export class UserComponent implements OnInit {
 
   user: User;
+  model: any = {};
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private userService: UserService) { }
 
   ngOnInit() {
     this.loadUser();
   }
 
   loadUser() {
-    this.user = this.authService.currentUser;
+    this.userService.getUser(this.authService.currentUser.userName).subscribe((res: User) => {
+      this.user = res;
+    });
+  }
+
+  loggedIn() {
+    return this.authService.loggedIn();
+  }
+
+  addWish() {
+    this.userService.addWish(this.user.userName, this.model).subscribe(() => {});
   }
 }
