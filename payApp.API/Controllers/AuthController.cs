@@ -87,7 +87,7 @@ namespace payApp.API.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, userInfo.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, userInfo.UserName)
             };
             
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

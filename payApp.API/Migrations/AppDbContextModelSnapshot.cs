@@ -119,6 +119,8 @@ namespace payApp.API.Migrations
 
                     b.Property<int>("Costs");
 
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -169,9 +171,17 @@ namespace payApp.API.Migrations
 
                     b.Property<int>("RoleId");
 
+                    b.Property<int?>("RoleId1");
+
+                    b.Property<int?>("UserId1");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -230,15 +240,23 @@ namespace payApp.API.Migrations
 
             modelBuilder.Entity("payApp.API.Models.UserRole", b =>
                 {
+                    b.HasOne("payApp.API.Models.Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("payApp.API.Models.Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RoleId1");
+
+                    b.HasOne("payApp.API.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("payApp.API.Models.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("payApp.API.Models.Wish", b =>
