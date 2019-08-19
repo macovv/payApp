@@ -3,7 +3,7 @@ namespace payApp.API.Dtos
 {
     public class UserForLoginDto
     {
-        public int Id { get; set; }
+        // public int Id { get; set; }
         public string UserName { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }

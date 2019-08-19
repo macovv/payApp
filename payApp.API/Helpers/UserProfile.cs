@@ -9,6 +9,8 @@ namespace payApp.API.Helpers
         public UserProfile()
         {
             CreateMap<UserForUpdatedDto, User>();
+            CreateMap<UserForRegisterDto, User>();
+            CreateMap<UserForLoginDto, User>();
         }
     }
 }

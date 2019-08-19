@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using payApp.API.Data;
 using payApp.API.Dtos;
 using payApp.API.Models;
+using AutoMapper;
 
 namespace payApp.API.Controllers
 {    
@@ -25,30 +26,31 @@ namespace payApp.API.Controllers
         private readonly AppDbContext _ctx;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private  IConfiguration _config;
+        private  readonly IConfiguration _config;
+        private readonly IAuthRepository _repo;
+        private readonly IMapper _mapper;
 
-        public AuthController(AppDbContext ctx, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config)
+        public AuthController(AppDbContext ctx, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config, IAuthRepository repo, IMapper mapper)
         {
             _ctx = ctx;
             _userManager = userManager;
             _signInManager = signInManager;
             _config = config;
+            _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(UserForRegisterDto user)
         {   
-            var newUser = new User() 
+            var userToCreate = _mapper.Map<User>(user);
+            if(await _repo.UserExist(userToCreate.UserName)) 
             {
-                UserName = user.UserName.ToLower(),
-                Email = user.Email
-            };
-            var result = await _userManager.CreateAsync(newUser, user.Password);
-            if(result.Succeeded)
-            {
-                await _signInManager.SignInAsync(newUser, false);
-                return Ok(); // correct return!
+                return Unauthorized();
             }
+            var userToReturn = await _repo.Register(userToCreate, user.Password);
+            if(userToReturn != null)
+                return Ok(userToReturn);
             return BadRequest();
         }
 
@@ -57,15 +59,11 @@ namespace payApp.API.Controllers
         {
             if(ModelState.IsValid) //dunnno it should be here
             {
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, user.RememberMe, false);
-                if(result.Succeeded)
+                var userToReturn = await _repo.Login(user.UserName, user.Password, user.RememberMe, false);
+                if (userToReturn != null)
                 {
-                    var userToReturn = _ctx.Users.Include(x => x.UserWishes).Where(u => u.UserName == user.UserName).FirstOrDefault();
-                    if (userToReturn != null)
-                    {
-                        var tokenString = GenerateJSONWebToken(userToReturn);
-                        return Ok(new { token = tokenString, user = userToReturn });
-                    }
+                    var tokenString = GenerateJSONWebToken(userToReturn);
+                    return Ok(new { token = tokenString, user = userToReturn });
                 }
             }
             return Unauthorized();

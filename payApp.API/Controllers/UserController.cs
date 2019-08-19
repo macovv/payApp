@@ -23,18 +23,20 @@ namespace payApp.API.Controllers
     {
         private readonly AppDbContext _ctx;
         private readonly IMapper _mapper;
+        private readonly IUserRepository _repo;
 
-        public UserController(AppDbContext ctx, IMapper mapper)
+        public UserController(AppDbContext ctx, IMapper mapper, IUserRepository repo)
         {
             _ctx = ctx;
             _mapper = mapper;
+            _repo = repo;
         }
 
 
         [HttpGet("{name}")]
-        public IActionResult getUser(string name) 
+        public async Task<IActionResult> getUser(string name) 
         {
-            var user = _ctx.Users.Where(u => u.UserName == name).Include(i => i.UserWishes).FirstOrDefault();
+            var user = await _repo.GetUser(name);
             if(user != null)
                 return Ok(user);
             else
@@ -42,10 +44,10 @@ namespace payApp.API.Controllers
         }
 
         [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> updateUser(UserForUpdatedDto userForUpdatedDto)
+        [HttpPut("{name}")]
+        public async Task<IActionResult> updateUser(UserForUpdatedDto userForUpdatedDto, string name)
         {
-            var user = _ctx.Users.Include(w => w.UserWishes).Where(u => u.UserName == userForUpdatedDto.UserName).FirstOrDefault();
+            var user = await _repo.GetUser(name.ToLower());
             if (user.UserName.ToString() != User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {
                 return Unauthorized();
@@ -54,16 +56,16 @@ namespace payApp.API.Controllers
             /*
                 W ANGULARZE SKONFIGURUJ TO TAK ZEBY AUTOMATYCZNIE WYSYAŁAŁO DOMYŚLNE CZYLI JUZ NADANE
              */
-            await _ctx.SaveChangesAsync();
-            return Ok(user);
+            if(await _repo.SaveAll())
+                return Ok(user);
+            return BadRequest("Problem with updating user");
         }
 
         [Authorize]
         [HttpPost("{name}/addWish")]
         public async Task<IActionResult> addWish(WishForAddDto wish, string name)
         {
-            var user = _ctx.Users.Include(w => w.UserWishes).Where(u => u.UserName == name).FirstOrDefault();
-            // Console.WriteLine
+            var user = await _repo.GetUser(name);
             if (user.UserName.ToString() != User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {
                 return Unauthorized();
@@ -75,17 +77,17 @@ namespace payApp.API.Controllers
                 User = user
             };
             user.UserWishes.Add(wishToAdd);
-            _ctx.Wishes.Add(wishToAdd);
-            await _ctx.SaveChangesAsync();
-            return Ok(user);
+            _ctx.Wishes.Add(wishToAdd); // to do repo
+            if(await _repo.SaveAll())
+                return Ok(user);
+            return BadRequest("Problem with adding new wish!");
         }
 
         [Authorize]
         [HttpPost("{name}/{wishId}/payForWish")]
-        public IActionResult payForWish(string name, int wishId)
+        public async Task<IActionResult> payForWish(string name, int wishId)
         {               
-            Console.WriteLine("---------------------Test");
-            var user = _ctx.Users.Include(w => w.UserWishes).Where(u => u.UserName == name).FirstOrDefault();
+            var user = await _repo.GetUser(name);
             var wish = user.UserWishes.Where(i => i.Id == wishId).FirstOrDefault();
             var loggedUsser = _ctx.Users.Include(w => w.UserWishes).Where(u => u.UserName == User.FindFirst(ClaimTypes.NameIdentifier).Value).FirstOrDefault();
             loggedUsser.Saldo -= wish.Cost;

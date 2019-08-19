@@ -74,7 +74,8 @@ namespace payApp.API
                 });
             services.AddCors();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // ?
-
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddDbContext<AppDbContext>(x => x.UseSqlite("Data Source=payAppFin.db"));
             services.AddMvc()

@@ -6,7 +6,7 @@ namespace payApp.API.Dtos
     public class UserForUpdatedDto
     {
         // public int Id { get; set; }
-        public string UserName { get; set; }
+        // public string UserName { get; set; }
         public int Income { get; set; }
         public int Costs { get; set; }
         
