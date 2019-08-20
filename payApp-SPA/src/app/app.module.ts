@@ -5,7 +5,6 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { UsersComponent } from './users/users.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuthService } from './services/auth.service';
 import { RegisterComponent } from './register/register.component';
@@ -19,7 +18,6 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    UsersComponent,
     NavbarComponent,
     RegisterComponent,
     UserComponent

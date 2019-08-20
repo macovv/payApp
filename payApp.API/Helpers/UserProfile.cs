@@ -11,6 +11,7 @@ namespace payApp.API.Helpers
             CreateMap<UserForUpdatedDto, User>();
             CreateMap<UserForRegisterDto, User>();
             CreateMap<UserForLoginDto, User>();
+            CreateMap<WishForAddDto, Wish>();
         }
     }
 }

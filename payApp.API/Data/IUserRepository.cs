@@ -9,6 +9,7 @@ namespace payApp.API.Data
         Task<User> GetUser(string name);
         Task<IList<User>> GetUsers(); // list?
         Task<bool> SaveAll();
-
+        Task<IList<Wish>> GetUserWishes(string username);
+        Task<Wish> GetUserWish(int id);
     }
 }

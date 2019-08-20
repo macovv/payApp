@@ -32,6 +32,14 @@ namespace payApp.API.Controllers
             _repo = repo;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> getUsers()
+        {
+            var users = await _repo.GetUsers();
+            if(users != null)
+                return Ok(users);
+            return BadRequest("Problem with getting all users");
+        }
 
         [HttpGet("{name}")]
         public async Task<IActionResult> getUser(string name) 
@@ -59,42 +67,6 @@ namespace payApp.API.Controllers
             if(await _repo.SaveAll())
                 return Ok(user);
             return BadRequest("Problem with updating user");
-        }
-
-        [Authorize]
-        [HttpPost("{name}/addWish")]
-        public async Task<IActionResult> addWish(WishForAddDto wish, string name)
-        {
-            var user = await _repo.GetUser(name);
-            if (user.UserName.ToString() != User.FindFirst(ClaimTypes.NameIdentifier).Value)
-            {
-                return Unauthorized();
-            }
-            Wish wishToAdd = new Wish() {
-                UrlToShop = wish.UrlToShop,
-                Name = wish.Name,
-                Cost = wish.Cost,
-                User = user
-            };
-            user.UserWishes.Add(wishToAdd);
-            _ctx.Wishes.Add(wishToAdd); // to do repo
-            if(await _repo.SaveAll())
-                return Ok(user);
-            return BadRequest("Problem with adding new wish!");
-        }
-
-        [Authorize]
-        [HttpPost("{name}/{wishId}/payForWish")]
-        public async Task<IActionResult> payForWish(string name, int wishId)
-        {               
-            var user = await _repo.GetUser(name);
-            var wish = user.UserWishes.Where(i => i.Id == wishId).FirstOrDefault();
-            var loggedUsser = _ctx.Users.Include(w => w.UserWishes).Where(u => u.UserName == User.FindFirst(ClaimTypes.NameIdentifier).Value).FirstOrDefault();
-            loggedUsser.Saldo -= wish.Cost;
-            if(loggedUsser.Saldo > 0)
-                return Ok("Ok" + wish);
-            else
-                return BadRequest("You can not afford this " + wish);
         }
 
     }
