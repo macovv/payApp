@@ -1,0 +1,9 @@
+<div class="container mt-2">
+    <div *ngIf="!loggedIn()" style="text-align: center">
+        <app-register></app-register>
+    </div>
+    <div *ngIf="loggedIn()" class="container">
+        <router-outlet></router-outlet>
+    </div>
+  </div>
+  

@@ -28,13 +28,10 @@ export class AuthService {
           // tslint:disable-next-line:no-shadowed-variable
           const user = res;
           if (user) {
-            this.currentUser = user.user;
-            // console.log(user.user);
-            // console.log(this.currentUser);
-            // console.log(this.currentUser.income);
-            // console.log(this.currentUser.userName);
             localStorage.setItem('token', user.token);
             localStorage.setItem('user', JSON.stringify(user.user));
+            this.currentUser = user.user;
+            this.decodedToken = this.jwtHelper.decodeToken(user.token);
           }
         }
       }));

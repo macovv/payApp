@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { User } from '../Models/user';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -13,7 +14,7 @@ export class UserComponent implements OnInit {
   user: User;
   model: any = {};
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private authService: AuthService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     this.loadUser();
@@ -30,6 +31,7 @@ export class UserComponent implements OnInit {
   }
 
   addWish() {
-    this.userService.addWish(this.user.userName, this.model).subscribe(() => {});
+    this.userService.addWish(this.model, this.user.userName).subscribe(() => {});
+    window.location.reload();
   }
 }

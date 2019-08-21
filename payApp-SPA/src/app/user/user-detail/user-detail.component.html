@@ -1,0 +1,12 @@
+<div class="container">
+        <div class="row mt-2">
+          <div class="col-sm-6">
+              <h3>{{user?.userName}}</h3>
+              <ul>
+                  <li *ngFor="let wish of user?.userWishes">
+                      <a href="{{wish.urlToShop}}">{{wish.name}} - {{wish.cost}}</a>
+                  </li>
+              </ul>
+            </div>
+        </div>
+</div>

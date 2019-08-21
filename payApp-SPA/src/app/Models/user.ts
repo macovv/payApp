@@ -8,5 +8,6 @@ export class User {
     public income: number;
     public costs: number;
     public userWishes: Wish[];
+    public email: string;
 
 }

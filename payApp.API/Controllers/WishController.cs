@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace payApp.API.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<IActionResult> addWish(WishForAddDto wish, string username)
         {
             var user = await _repo.GetUser(username);
