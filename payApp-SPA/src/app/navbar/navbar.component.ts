@@ -21,6 +21,8 @@ export class NavbarComponent implements OnInit {
   login() {
     this.authService.login(this.model).subscribe(data => {
       this.user = this.authService.currentUser;
+      this.router.navigate(['/user']);
+      // window.location.reload();
     });
   }
 

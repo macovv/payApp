@@ -6,7 +6,7 @@ namespace payApp.API.Models
 {
     public class User : IdentityUser<int>
     {
-        public int Income { get; set; }
+        public int Income { get; set; } // like tip
         public int Costs { get; set; } = 0;
         public int Saldo { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;

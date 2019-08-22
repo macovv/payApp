@@ -8,12 +8,17 @@
                 <a href="{{wish.urlToShop}}">{{wish.name}}</a> - {{wish.cost}}
             </li>
         </ul>
+        <button (click)="edit()" type="submit" class="btn btn-primary">Edit</button>
     </div>
     <div class="col-sm-6">
         <form *ngIf="loggedIn()" #addWishForm="ngForm" (ngSubmit)="addWish()">
             <div class="form-group">
-                <label>Wish:</label>
+                <label>Wish Name:</label>
                 <input type="text" class="form-control" name="name" [(ngModel)]="model.Name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label>Wish Description:</label>
+                <textarea type="text" class="form-control" name="WishDescription" [(ngModel)]="model.WishDescription" placeholder="Name"></textarea>
             </div>
             <div class="form-group">
                 <label>Url to Item:</label>

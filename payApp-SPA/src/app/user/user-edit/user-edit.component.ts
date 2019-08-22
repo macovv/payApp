@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/Models/user';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgForm } from '@angular/forms';
@@ -15,7 +15,7 @@ export class UserEditComponent implements OnInit {
   user: User;
   @ViewChild('editForm', {static: false}) editForm: NgForm;
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -31,6 +31,7 @@ export class UserEditComponent implements OnInit {
     }, err => {
       console.log(err);
     });
+    this.router.navigate(['/user']);
   }
 
   loggedIn() {

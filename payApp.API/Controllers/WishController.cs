@@ -11,23 +11,27 @@ using payApp.API.Models;
 
 namespace payApp.API.Controllers
 {
-    [Route("api/user/{username}/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class WishController : ControllerBase
     {
         private readonly IUserRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IWishRepository _wishRepo;
+        private readonly AppDbContext _ctx;
 
-        public WishController(IUserRepository repo, IMapper mapper)
+        public WishController(IUserRepository repo, IMapper mapper, IWishRepository wishRepo, AppDbContext ctx)
         {
             _repo = repo;
             _mapper = mapper;
+            _wishRepo = wishRepo;
+            _ctx = ctx;
         }
 
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<IActionResult> getWishes(string username)
         {
-            var wishes = await _repo.GetUserWishes(username);
+            var wishes = await _wishRepo.GetWishes();
             if(wishes != null)
                 return Ok(wishes);
             return BadRequest("Problem with getting user wishes");
@@ -36,15 +40,25 @@ namespace payApp.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> getWish(int id)
         {
-            var wish = await _repo.GetUserWish(id);
+            var wish = await _wishRepo.GetWish(id);
             if(wish != null)
                 return Ok(wish);
             return BadRequest("Problem with getting user wish");
 
         }
 
+        [HttpGet("user/{username}")]
+        public async Task<IActionResult> getUserWishes(string userName)
+        {
+            var wishes = await _wishRepo.GetUserWishes(userName);
+            if(wishes != null)
+                return Ok(wishes);
+            return BadRequest("Problem with getting user wish");
+
+        }
+
         [Authorize]
-        [HttpPost("add")]
+        [HttpPost("{username}/add")]
         public async Task<IActionResult> addWish(WishForAddDto wish, string username)
         {
             var user = await _repo.GetUser(username);
@@ -60,18 +74,34 @@ namespace payApp.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("{wishId}/payForWish")]
-        public async Task<IActionResult> payForWish(string name, int wishId)
-        {               
-            var user = await _repo.GetUser(name);
-            var wish = user.UserWishes.Where(i => i.Id == wishId).FirstOrDefault();  // to do 
-            var loggedUsser = await _repo.GetUser(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            loggedUsser.Saldo -= wish.Cost; // if less than 0 return to previous saldo
-            if(loggedUsser.Saldo > 0)
-                return Ok(wish);
-            else
-                return BadRequest("You can not afford this " + wish);
+        [HttpDelete("user/{username}/{id}")]
+        public async Task<IActionResult> deleteWish(string username, int id) 
+        {
+            var user = await _repo.GetUser(username);
+            if (user.UserName.ToString() != User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
+            var wishToRemove = await _wishRepo.GetWish(id);
+            user.UserWishes.Remove(wishToRemove);
+            _wishRepo.RemoveWish(wishToRemove);
+            if(await _repo.SaveAll())
+                return Ok("Deleted");
+            return BadRequest("Problem with removing wish");
         }
+
+        // [Authorize]
+        // [HttpPost("{wishId}")]
+        // public async Task<IActionResult> payForWish(string name, int wishId)
+        // {               
+        //     var user = await _repo.GetUser(name);
+        //     var wish = await _repo.GetUserWish(wishId);
+        //     var loggedUsser = await _repo.GetUser(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        //     if(wish.Cost > loggedUsser.Saldo)
+        //         return BadRequest("You cant affor this wish!");
+        //     loggedUsser.Saldo -= wish.Cost; // if less than 0 return to previous saldo
+        //     return Ok(wish);
+        // }
 
 
     }

@@ -13,7 +13,7 @@ namespace payApp.API.Data
         {
         }
 
-        public DbSet<Wish>  Wishes { get; set; }
+        public DbSet<Wish> Wishes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

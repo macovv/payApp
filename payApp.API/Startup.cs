@@ -76,6 +76,7 @@ namespace payApp.API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // ?
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IWishRepository, WishRepository>();
 
             services.AddDbContext<AppDbContext>(x => x.UseSqlite("Data Source=payAppFin.db"));
             services.AddMvc()

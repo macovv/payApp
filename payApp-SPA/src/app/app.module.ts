@@ -18,6 +18,9 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserEditResolver } from 'resolvers/user-edit.resolver';
 import { EditGuard } from './guards/edit.guard';
+import { WishComponent } from './wish/wish.component';
+import { WishListComponent } from './wish/wish-list/wish-list.component';
+import { WishService } from './services/wish.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -33,13 +36,14 @@ export function tokenGetter() {
     UserListComponent,
     UserDetailComponent,
     UserEditComponent,
+    WishComponent,
+    WishListComponent,
     // FormsModule.fo
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    // RouterModule,
     RouterModule.forRoot(routes),
     JwtModule.forRoot({
       config: {
@@ -56,6 +60,7 @@ export function tokenGetter() {
     UserService,
     UserEditResolver,
     EditGuard,
+    WishService,
   ],
   bootstrap: [AppComponent]
 })
