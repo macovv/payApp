@@ -18,7 +18,7 @@ export const routes: Routes = [
         {path: 'user/:username/edit', component: UserEditComponent, resolve: {user: UserEditResolver}, canActivate: [EditGuard]},
         {path: 'user/details/:username', component: UserDetailComponent},
         {path: 'wish/list', component: WishListComponent},
-        {path: 'wish/:wishid', component: WishComponent},
+        {path: 'wish/:id', component: WishComponent},
     ]},
     { path: '**', redirectTo: '', pathMatch: 'full'},
 ];

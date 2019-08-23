@@ -3,6 +3,7 @@ import { User } from '../Models/user';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { WishService } from '../services/wish.service';
 
 @Component({
   selector: 'app-user',
@@ -14,7 +15,8 @@ export class UserComponent implements OnInit {
   user: User;
   model: any = {};
 
-  constructor(private authService: AuthService, private userService: UserService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService, private userService: UserService,
+              private router: Router, private route: ActivatedRoute, private wishService: WishService) { }
 
   ngOnInit() {
     this.loadUser();
@@ -31,7 +33,7 @@ export class UserComponent implements OnInit {
   }
 
   addWish() {
-    this.userService.addWish(this.model, this.user.userName).subscribe(() => {});
+    this.wishService.addWish(this.model, this.user.userName).subscribe(() => {});
     window.location.reload();
   }
 

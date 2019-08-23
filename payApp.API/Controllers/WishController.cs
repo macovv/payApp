@@ -29,9 +29,10 @@ namespace payApp.API.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> getWishes(string username)
+        public async Task<IActionResult> getWishes()
         {
             var wishes = await _wishRepo.GetWishes();
+            Console.WriteLine("==================================" + wishes[1].Name);
             if(wishes != null)
                 return Ok(wishes);
             return BadRequest("Problem with getting user wishes");
@@ -58,7 +59,7 @@ namespace payApp.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("{username}/add")]
+        [HttpPost("user/{username}/add")]
         public async Task<IActionResult> addWish(WishForAddDto wish, string username)
         {
             var user = await _repo.GetUser(username);

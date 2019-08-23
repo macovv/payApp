@@ -25,7 +25,7 @@ export class UserService {
 
   }
 
-  addWish(model: any, name: string) {
-    return this.http.post('http://localhost:5000/api/user/' + name + '/wish/add', model);
-  }
+  // addWish(model: any, name: string) {
+  //   return this.http.post('http://localhost:5000/api/user/' + name + '/wish/add', model);
+  // }
 }
