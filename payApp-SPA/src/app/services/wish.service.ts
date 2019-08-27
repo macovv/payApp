@@ -12,19 +12,19 @@ export class WishService {
 
 
   getWishes(): Observable<Wish[]> {
-    return this.http.get<Wish[]>('http://localhost:5000/api/wish/list');
+    return this.http.get<Wish[]>('http://localhost:5000/api/wishes/list');
   }
 
   getUserWishes(name: string): Observable<Wish[]> {
-    return this.http.get<Wish[]>('http://localhost:5000/api/wish/user/' + name);
+    return this.http.get<Wish[]>('http://localhost:5000/api/wishes/user/' + name);
   }
 
   getWish(id: number): Observable<Wish> {
-    return this.http.get<Wish>('http://localhost:5000/api/wish/' + id);
+    return this.http.get<Wish>('http://localhost:5000/api/wishes/' + id);
   }
 
   addWish(model: any, name: string) {
-    return this.http.post('http://localhost:5000/api/wish/user/' + name + '/add', model);
+    return this.http.post('http://localhost:5000/api/wishes/user/' + name + '/add', model);
   }
 
 }

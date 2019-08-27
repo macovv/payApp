@@ -18,6 +18,7 @@ export class UserListComponent implements OnInit {
   }
 
   loadUsers() {
+    // Should API return paged list?? maybe i should return everything and then page it in angular...
     this.userService.getUsers().subscribe((res: User[]) => {
       this.users = res;
     });

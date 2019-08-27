@@ -13,15 +13,15 @@ export class UserService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getUser(name: string): Observable<User> {
-    return this.http.get<User>('http://localhost:5000/api/user/' + name);
+    return this.http.get<User>('http://localhost:5000/api/users/' + name);
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('http://localhost:5000/api/user');
+    return this.http.get<User[]>('http://localhost:5000/api/users');
   }
 
   updateUser(model: any, name: string): Observable<User> {
-    return this.http.put<User>('http://localhost:5000/api/user/' + name, model);
+    return this.http.put<User>('http://localhost:5000/api/users/' + name, model);
 
   }
 

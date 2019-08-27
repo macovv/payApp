@@ -22,7 +22,6 @@ namespace payApp.API.Data
         {
             var result = await _signInManager.PasswordSignInAsync(username, password, rememberMe, lockoutOnFailure);
             if(result.Succeeded) {
-                Console.WriteLine("------------------------------------- frfrff COŚŚŚŚŚŚŚŚ");
                 return await _userRepo.GetUser(username);
             }
             return null;

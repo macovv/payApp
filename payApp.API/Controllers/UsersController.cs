@@ -13,19 +13,20 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
+using payApp.API.Helpers;
 
 namespace payApp.API.Controllers
 {
     // [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly AppDbContext _ctx;
         private readonly IMapper _mapper;
         private readonly IUserRepository _repo;
 
-        public UserController(AppDbContext ctx, IMapper mapper, IUserRepository repo)
+        public UsersController(AppDbContext ctx, IMapper mapper, IUserRepository repo)
         {
             _ctx = ctx;
             _mapper = mapper;
@@ -33,11 +34,22 @@ namespace payApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> getUsers()
+        public async Task<IActionResult> getUsers([FromQuery]string currentFilter, string searchString, int? pageNumber)
         {
-            var users = await _repo.GetUsers();
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            var users = _repo.GetUsers();
+            int pageSize = 15;
+
             if(users != null)
-                return Ok(users);
+                return Ok(await PaginatedList<User>.CreateAsync(users, pageNumber ?? 1, pageSize));
             return BadRequest("Problem with getting all users");
         }
 

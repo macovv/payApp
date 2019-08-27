@@ -20,20 +20,20 @@ namespace payApp.API.Data
             return user;
         }
 
-        public async Task<IList<User>> GetUsers()
+        public IQueryable<User> GetUsers()
         {
-            return await _ctx.Users.Include(w => w.UserWishes).ToListAsync();
+            return _ctx.Users.Include(w => w.UserWishes).AsQueryable();
         }
 
-        public async Task<Wish> GetWish(int id)
-        {
-            return await _ctx.Wishes.Where(i => i.Id == id).FirstOrDefaultAsync();
-        }
+        // public async Task<Wish> GetWish(int id)
+        // {
+        //     return await _ctx.Wishes.Where(i => i.Id == id).FirstOrDefaultAsync();
+        // }
 
-        public async Task<IList<Wish>> GetWishes(string userName)
-        {
-            return await _ctx.Wishes.ToListAsync();
-        }
+        // public async Task<IList<Wish>> GetWishes(string userName)
+        // {
+        //     return await _ctx.Wishes.ToListAsync();
+        // }
 
         public async Task<bool> SaveAll()
         {

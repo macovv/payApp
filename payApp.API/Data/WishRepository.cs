@@ -22,7 +22,7 @@ namespace payApp.API.Data
 
         public async Task<Wish> GetWish(int id)
         {
-            return await _ctx.Wishes.Where(i => i.Id == id).FirstOrDefaultAsync();
+            return await _ctx.Wishes.Include(u => u.User).Where(i => i.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<IList<Wish>> GetWishes()

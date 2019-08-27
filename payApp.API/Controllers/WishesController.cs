@@ -13,14 +13,14 @@ namespace payApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WishController : ControllerBase
+    public class WishesController : ControllerBase
     {
         private readonly IUserRepository _repo;
         private readonly IMapper _mapper;
         private readonly IWishRepository _wishRepo;
         private readonly AppDbContext _ctx;
 
-        public WishController(IUserRepository repo, IMapper mapper, IWishRepository wishRepo, AppDbContext ctx)
+        public WishesController(IUserRepository repo, IMapper mapper, IWishRepository wishRepo, AppDbContext ctx)
         {
             _repo = repo;
             _mapper = mapper;
@@ -28,11 +28,10 @@ namespace payApp.API.Controllers
             _ctx = ctx;
         }
 
-        [HttpGet("list")]
+        [HttpGet]
         public async Task<IActionResult> getWishes()
         {
             var wishes = await _wishRepo.GetWishes();
-            Console.WriteLine("==================================" + wishes[1].Name);
             if(wishes != null)
                 return Ok(wishes);
             return BadRequest("Problem with getting user wishes");
@@ -89,6 +88,26 @@ namespace payApp.API.Controllers
             if(await _repo.SaveAll())
                 return Ok("Deleted");
             return BadRequest("Problem with removing wish");
+        }
+
+        [Authorize]
+        [HttpPost("{id}/donate")]
+        public async Task<IActionResult> DonateWish(int id, DonateDto donate)
+        {
+            var user = await _repo.GetUser(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var wish = await _wishRepo.GetWish(id); //zwroc z include user albo znajdz uzytkownika i dodaj mu to do salda co dostanie
+            if(donate.Donate < user.Saldo)
+            {
+                user.Saldo -= donate.Donate;
+                user.Costs += donate.Donate;
+                wish.CollectedMoney += donate.Donate;
+                wish.User.Saldo += donate.Donate;
+                if(wish.CollectedMoney >= wish.Cost)
+                    wish.IsFinished = true;
+                if(await _repo.SaveAll())
+                    return Ok("Wish Donated");
+            }
+            return BadRequest("Problem with donating");
         }
 
         // [Authorize]
