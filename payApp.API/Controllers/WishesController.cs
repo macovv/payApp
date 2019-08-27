@@ -67,7 +67,7 @@ namespace payApp.API.Controllers
                 return Unauthorized();
             }
             var wishToAdd = _mapper.Map<Wish>(wish);
-            user.UserWishes.Add(wishToAdd);
+            _wishRepo.AddWish(user, wishToAdd);
             if(await _repo.SaveAll())
                 return Ok(user);
             return BadRequest("Problem with adding new wish!");

@@ -10,6 +10,7 @@ namespace payApp.API.Data
         Task<IList<Wish>> GetWishes();
         Task<Wish> GetWish(int id);
         Task<IList<Wish>> GetUserWishes(string userName);
+        void AddWish(User user, Wish wishToAdd);
         void RemoveWish(Wish wishToRemove);
     }
 }

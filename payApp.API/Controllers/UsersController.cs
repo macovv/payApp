@@ -74,12 +74,11 @@ namespace payApp.API.Controllers
             }
             _mapper.Map(userForUpdatedDto, user);
             /*
-                W ANGULARZE SKONFIGURUJ TO TAK ZEBY AUTOMATYCZNIE WYSYAŁAŁO DOMYŚLNE CZYLI JUZ NADANE
+                Configure it in angular with preload resolvers
              */
             if(await _repo.SaveAll())
                 return Ok(user);
             return BadRequest("Problem with updating user");
         }
-
     }
 }

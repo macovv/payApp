@@ -39,5 +39,10 @@ namespace payApp.API.Data
         {
             _ctx.Remove(wishToRemove);
         }
+
+        public void AddWish(User user, Wish wishToAdd)
+        {
+            user.UserWishes.Add(wishToAdd);
+        }
     }
 }
