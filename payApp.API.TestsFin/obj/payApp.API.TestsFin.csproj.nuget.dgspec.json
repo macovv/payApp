@@ -1,0 +1,161 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API.TestsFin/payApp.API.TestsFin.csproj": {}
+  },
+  "projects": {
+    "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API.TestsFin/payApp.API.TestsFin.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API.TestsFin/payApp.API.TestsFin.csproj",
+        "projectName": "payApp.API.TestsFin",
+        "projectPath": "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API.TestsFin/payApp.API.TestsFin.csproj",
+        "packagesPath": "/Users/szymonwojtala/.nuget/packages/",
+        "outputPath": "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API.TestsFin/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/szymonwojtala/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {
+              "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API/payApp.API.csproj": {
+                "projectPath": "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API/payApp.API.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.App": {
+              "target": "Package",
+              "version": "[2.1.1, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[15.9.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.13.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API/payApp.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API/payApp.API.csproj",
+        "projectName": "payApp.API",
+        "projectPath": "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API/payApp.API.csproj",
+        "packagesPath": "/Users/szymonwojtala/.nuget/packages/",
+        "outputPath": "/Users/szymonwojtala/Downloads/payApp/payApp/payApp.API/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/szymonwojtala/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[6.1.1, )"
+            },
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[2.1.1, )"
+            },
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

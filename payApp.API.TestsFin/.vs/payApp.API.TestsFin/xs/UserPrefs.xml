@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{4D4C5A33-1473-413E-BAC0-073D5145AAB7}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UserRepositoryTests.cs">
+    <Files>
+      <File FileName="UserRepositoryTests.cs" Line="37" Column="31" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="payApp.API.TestsFin" expanded="True">
+            <Node name="payApp.API.TestsFin" expanded="True">
+              <Node name="UserRepositoryTests.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="payApp.API.TestsFin" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.payApp.API.TestsFin PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
